@@ -38,10 +38,10 @@ Router <- mutatr::Object$clone()$do({
         params$query <- query
         
         call <- bquote(do.call(.(matcher$callback), .(params)))
-        res <- try_capture_stack(call, sys.frame())
+        res <- evaluate::try_capture_stack(call, sys.frame())
         
         if (is.error(res)) {
-          traceback <- stringr::str_c(create_traceback(res$calls), collapse = "\n")
+          traceback <- stringr::str_c(evaluate::create_traceback(res$calls), collapse = "\n")
           return(stringr::str_c("ERROR: ", res$message, "\n\n", traceback))
         }
         
